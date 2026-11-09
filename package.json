@@ -1,0 +1,12 @@
+{
+  "name": "lantern-share",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Private file and clipboard sharing for devices on your local network",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

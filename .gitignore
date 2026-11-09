@@ -1,0 +1,35 @@
+# Lantern runtime data and logs
+.lantern-share/
+**/.lantern-share/
+join-pin.txt
+items.json
+host-sync.json
+item-tombstones.json
+host-transfer.state
+*.lshare
+*.log
+
+# Build outputs and local Android settings
+node_modules/
+android/.gradle/
+android/local.properties
+android/**/build/
+*.apk
+*.aab
+*.dmg
+mac/.build/
+dist/
+
+# Signing credentials and local environment values
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.p8
+*.mobileprovision
+
+# OS metadata
+.DS_Store
+Thumbs.db

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f5f0">
+  <meta name="description" content="Private sharing for the devices on your local network.">
+  <title>Lantern Share — your devices, together</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="/brand/lantern-mark-192.png">
+  <link rel="apple-touch-icon" href="/brand/lantern-mark.png">
+  <link rel="stylesheet" href="/styles.css?v=11">
+  <script src="/theme.js?v=1"></script>
+  <script src="/app.js?v=9" defer></script>
+</head>
+<body>
+  <div class="login-screen" id="login-screen">
+    <div class="login-card">
+      <button class="theme-toggle login-theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme"><span class="theme-icon" aria-hidden="true">☾</span></button>
+      <a class="brand brand-centered" href="/" aria-label="Lantern Share home">
+        <span class="brand-mark" aria-hidden="true"><img src="/brand/lantern-mark.svg?v=1" alt=""></span>
+        <span>lantern<span class="brand-light">share</span></span>
+      </a>
+      <div class="login-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="device device-phone"><span></span><span></span><span></span></div>
+        <div class="device device-laptop"><span class="laptop-screen"><i></i><i></i><i></i></span><span class="laptop-base"></span></div>
+        <div class="transfer-dot">↗</div>
+      </div>
+      <p class="eyebrow">YOUR PRIVATE LOCAL ROOM</p>
+      <h1>All your devices.<br><em>One little space.</em></h1>
+      <p class="login-copy">Enter the six-digit join PIN shown in the terminal on the device running Lantern Share.</p>
+      <form id="login-form" class="login-form">
+        <label for="pin-input">Join PIN</label>
+        <div class="pin-row">
+          <input id="pin-input" name="pin" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="••••••" required>
+          <button class="button button-dark" type="submit">Join room <span aria-hidden="true">→</span></button>
+        </div>
+        <p class="form-error" id="login-error" role="alert"></p>
+      </form>
+      <div class="privacy-note"><span class="lock-icon" aria-hidden="true">◆</span><span>Private to your Wi-Fi. Nothing is sent to the cloud.</span></div>
+    </div>
+    <p class="login-footnote">RUNNING ON YOUR NETWORK <span></span> NO ACCOUNT NEEDED</p>
+  </div>
+
+  <div class="app-shell is-hidden" id="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="/" aria-label="Lantern Share home">
+        <span class="brand-mark" aria-hidden="true"><img src="/brand/lantern-mark.svg?v=1" alt=""></span>
+        <span>lantern<span class="brand-light">share</span></span>
+      </a>
+      <div class="room-pill"><span class="live-dot"></span><span>Local room</span><span class="room-lock" title="PIN protected">◆</span></div>
+      <div class="side-label">YOUR SPACE</div>
+      <nav class="side-nav" aria-label="Share filters">
+        <button class="nav-item is-active" data-filter="all"><span class="nav-icon">◫</span><span>Everything</span><span class="nav-count" id="count-all">0</span></button>
+        <button class="nav-item" data-filter="text"><span class="nav-icon">T</span><span>Text & links</span><span class="nav-count" id="count-text">0</span></button>
+        <button class="nav-item" data-filter="file"><span class="nav-icon">▧</span><span>Files & media</span><span class="nav-count" id="count-files">0</span></button>
+      </nav>
+      <div class="side-divider"></div>
+      <button class="side-upload" id="side-upload"><span class="plus-icon">+</span><span>Share files</span><span class="shortcut">↑</span></button>
+      <div class="sidebar-spacer"></div>
+      <div class="storage-card">
+        <div class="storage-icon">↔</div>
+        <div><strong>On this network</strong><p>Your shares stay close.</p></div>
+        <span class="storage-check">✓</span>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="avatar-stack" aria-hidden="true"><span>↗</span><span>⌘</span><span>▣</span></div>
+        <div><strong>Devices welcome</strong><p>Connected with your PIN</p></div>
+        <button class="icon-button logout-button" id="logout-button" title="Leave room" aria-label="Leave room">↪</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-button" aria-label="Open menu">☰</button>
+        <div class="breadcrumb"><span>My space</span><span class="crumb-slash">/</span><strong id="breadcrumb-current">Everything</strong></div>
+        <div class="topbar-right"><button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark theme" title="Switch to dark theme"><span class="theme-icon" aria-hidden="true">☾</span></button><span class="network-status"><i></i> LOCAL NETWORK</span><span class="topbar-divider"></span><button class="help-button" id="help-button" title="About private sharing">?</button></div>
+      </header>
+
+      <div class="content-wrap">
+        <div class="host-banner is-hidden" id="host-banner" role="status"><span>Sharing is paused while this host is being moved.</span><button class="text-button" id="host-banner-resume" type="button">Resume sharing</button></div>
+        <section class="welcome-row">
+          <div><p class="eyebrow"><span class="live-dot"></span> YOUR PRIVATE SPACE</p><h1>Good things, <em>in sync.</em></h1><p class="welcome-copy">Send a link, a file, a thought — it’s all right here across your devices.</p></div>
+          <div class="welcome-illustration" aria-hidden="true"><span class="spark spark-a">✳</span><span class="spark spark-b">✦</span><div class="share-orb"><span>↗</span></div><div class="orb-trail"></div></div>
+        </section>
+
+        <section class="composer-grid" aria-label="Share something">
+          <form class="text-composer" id="text-form">
+            <div class="composer-head"><div class="composer-type"><span class="type-icon text-type">T</span><div><strong>Send a quick note</strong><p>Text, links, snippets — anything.</p></div></div><span class="composer-kicker">01 / TEXT</span></div>
+            <label class="visually-hidden" for="text-input">Write something to share</label>
+            <textarea id="text-input" maxlength="1000000" placeholder="Paste or type something to share…" rows="4"></textarea>
+            <div class="composer-foot"><span class="subtle-hint">Tip: paste a link or a bit of text</span><button class="button button-green" type="submit">Share note <span aria-hidden="true">↗</span></button></div>
+          </form>
+          <div class="file-composer" id="drop-zone" tabindex="0" role="button" aria-label="Choose files to share">
+            <input id="file-input" type="file" multiple hidden>
+            <div class="upload-art" aria-hidden="true"><div class="upload-cloud">↑</div><span class="upload-spark upload-spark-one">✦</span><span class="upload-spark upload-spark-two">·</span></div>
+            <span class="composer-kicker">02 / FILES</span>
+            <strong>Drop anything in.</strong>
+            <p>Photos, video, PDFs, and files of every kind.</p>
+            <button class="button button-outline" id="choose-files" type="button">Choose files <span aria-hidden="true">+</span></button>
+            <span class="file-limit-note">No app upload cap · limited by available disk space</span>
+          </div>
+        </section>
+
+        <section class="upload-queue is-hidden" id="upload-queue" aria-live="polite">
+          <div class="queue-heading"><span class="queue-spinner"></span><strong>Sending files</strong><span id="queue-count">0 files</span><button class="icon-button" id="clear-queue" aria-label="Clear completed uploads">×</button></div>
+          <div id="queue-list"></div>
+        </section>
+
+        <section class="library-section">
+          <div class="library-heading"><div><p class="eyebrow">THE SHARED SHELF</p><h2>Freshly shared <span class="live-dot"></span></h2></div><div class="library-tools"><label class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="search-input" placeholder="Find something…" aria-label="Search shared items"></label><button class="sort-button" id="sort-button">Newest <span>⌄</span></button></div></div>
+          <div class="library-tabs" role="tablist" aria-label="Filter shared items">
+            <button class="tab is-active" data-filter="all" role="tab" aria-selected="true">All <span id="tab-count-all">0</span></button>
+            <button class="tab" data-filter="text" role="tab" aria-selected="false">Text <span id="tab-count-text">0</span></button>
+            <button class="tab" data-filter="file" role="tab" aria-selected="false">Files <span id="tab-count-files">0</span></button>
+          </div>
+          <div class="share-grid" id="share-grid"></div>
+          <div class="empty-state" id="empty-state">
+            <div class="empty-art"><span class="empty-paper">T</span><span class="empty-photo">▧</span><span class="empty-plus">+</span></div>
+            <h3>A little quiet in here.</h3><p>Send something from one device and it’ll show up here for everyone in the room.</p>
+            <button class="text-button" id="empty-upload">Share your first file <span>↗</span></button>
+          </div>
+          <p class="library-footnote" id="library-footnote">Visible only to devices joined with your PIN <span>·</span> Stored on this device</p>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="privacy-dialog" class="privacy-dialog">
+    <button class="dialog-close icon-button" id="dialog-close" aria-label="Close">×</button>
+    <span class="dialog-mark">◆</span><p class="eyebrow">MADE FOR YOUR NETWORK</p><h2>Just your devices.<br><em>Nothing in between.</em></h2>
+    <p>Lantern Share connects your devices directly over your private local network. Trusted Windows, Mac, and Linux hosts can keep separate room copies. There are no accounts, cloud uploads, analytics, or outside sharing links.</p>
+    <div class="privacy-detail"><span>01</span><div><strong>Local network only</strong><p>The server accepts connections from its own Wi-Fi or Ethernet subnet.</p></div></div>
+    <div class="privacy-detail"><span>02</span><div><strong>PIN protected</strong><p>Devices need the join PIN shown on the host before viewing the shared shelf.</p></div></div>
+    <div class="privacy-detail"><span>03</span><div><strong>Copies stay on your hosts</strong><p>Paired hosts keep their last room copy. Notes and files move between them only when someone starts a sync.</p></div></div>
+    <section class="host-transfer" id="host-transfer" hidden>
+      <p class="eyebrow">HOSTS & ROOM SYNC</p>
+      <p class="host-location" id="host-location">Checking this host…</p>
+      <p class="host-remote-note is-hidden" id="host-remote-note">You can sync paired hosts here. Pairing a new host is available from Lantern Share on a host computer.</p>
+      <div id="host-sync-controls">
+        <h3>Room devices</h3>
+        <p class="host-transfer-intro">Each paired device keeps its last copied room data. Nothing is copied in the background. Choose a device and tap Sync now when you want to update it.</p>
+        <p class="host-sync-status" id="host-sync-status">This host is not paired yet.</p>
+        <button class="button button-outline" id="host-sync-all" type="button">Sync all devices now</button>
+        <ul class="host-sync-peers" id="host-sync-peers"></ul>
+        <p class="host-transfer-message" id="host-sync-message" role="status"></p>
+        <div id="host-sync-admin" class="host-sync-admin is-hidden">
+          <h3>Add another host</h3>
+          <p class="host-transfer-intro">Create a temporary code here, then enter this host address and code on the new computer. Pairing adds the device without copying room data.</p>
+          <button class="button button-outline" id="host-sync-invite" type="button">Create pairing code</button>
+          <div class="host-sync-invite-result is-hidden" id="host-sync-invite-result">
+            <label for="host-sync-code">Temporary pairing code</label>
+            <input id="host-sync-code" type="text" readonly>
+            <p id="host-sync-source-addresses"></p>
+          </div>
+          <label for="host-sync-address">Existing host address</label>
+          <input id="host-sync-address" type="url" inputmode="url" placeholder="Existing host's local address" autocomplete="url">
+          <label for="host-sync-pair-code">Pairing code from that host</label>
+          <input id="host-sync-pair-code" type="text" autocomplete="one-time-code">
+          <button class="button button-green" id="host-sync-pair" type="button">Pair this host</button>
+        </div>
+      </div>
+      <div class="host-transfer-legacy is-hidden" id="host-transfer-legacy">
+      <p class="eyebrow">MANUAL BACKUP</p>
+      <h3>Move this sharing room</h3>
+      <p class="host-transfer-intro">For an offline one-time move, create a passphrase-protected backup. Paired hosts can sync directly over your local network instead.</p>
+      <div id="host-source-controls" class="is-hidden">
+        <button class="button button-outline" id="host-freeze" type="button">Pause sharing for move</button>
+        <button class="button button-outline is-hidden" id="host-resume" type="button">Resume this host</button>
+        <div class="host-backup-controls is-hidden" id="host-backup-controls">
+          <label for="host-backup-passphrase">Backup passphrase (12 characters or more)</label>
+          <input id="host-backup-passphrase" type="password" autocomplete="new-password" minlength="12">
+          <label for="host-backup-passphrase-confirm">Confirm backup passphrase</label>
+          <input id="host-backup-passphrase-confirm" type="password" autocomplete="new-password" minlength="12">
+          <button class="button button-green" id="host-backup-button" type="button">Create encrypted backup</button>
+          <a class="button button-outline is-hidden" id="host-backup-download" download="lantern-share-backup.lshare">Download encrypted backup</a>
+        </div>
+      </div>
+      <div id="host-target-controls" class="is-hidden">
+        <label for="host-import-file">Choose the .lshare backup on this computer</label>
+        <input id="host-import-file" type="file" accept=".lshare,application/vnd.lantern-share.backup">
+        <label for="host-import-passphrase">Backup passphrase</label>
+        <input id="host-import-passphrase" type="password" autocomplete="new-password">
+        <button class="button button-green" id="host-import-button" type="button">Import room to this host</button>
+        <div class="host-import-progress is-hidden" id="host-import-progress"><span></span></div>
+      </div>
+      <p class="host-transfer-message" id="host-transfer-message" role="status"></p>
+      <p class="host-transfer-footnote">Move order: pause and download here, install Lantern Share on the new host, then open its local address and import the backup there. After import, devices use the new host address and the existing room PIN. Keep enough free disk space for the backup and temporary import files.</p>
+      </div>
+    </section>
+  </dialog>
+  <dialog id="image-viewer" class="image-viewer" aria-label="Image preview">
+    <button class="dialog-close icon-button" id="image-viewer-close" type="button" aria-label="Close image">×</button>
+    <figure><img id="image-viewer-image" alt=""><figcaption id="image-viewer-caption"></figcaption></figure>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Lantern Share</title>
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#207b55"/>
+      <stop offset="1" stop-color="#11553b"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="url(#ground)"/>
+  <path d="M100 19.5 103 27l7.5 3-7.5 3-3 7.5-3-7.5-7.5-3 7.5-3 3-7.5Z" fill="#e8c477"/>
+  <g fill="none" stroke="#f7f7ed" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
+    <path d="M52 43v-7a12 12 0 0 1 24 0v7"/>
+    <path d="M42 44h44l-5 11H47l-5-11Z" fill="#f7f7ed" stroke="none"/>
+    <path d="M47 55h34l-4 38H51l-4-38Z"/>
+    <path d="M46 99h36M54 106h20"/>
+  </g>
+  <rect x="57" y="64" width="14" height="21" rx="7" fill="#e8c477"/>
+  <path d="M64 69v10" stroke="#fff4d8" stroke-linecap="round" stroke-width="2.5"/>
+</svg>
