@@ -36,7 +36,7 @@ done
 iconutil -c icns "$ICONSET" -o "$CONTENTS/Resources/LanternShare.icns"
 
 for arch in arm64 x86_64; do
-  xcrun swiftc -O -target "${arch}-apple-macosx12.0" -framework AppKit -framework WebKit \
+  xcrun swiftc -parse-as-library -O -target "${arch}-apple-macosx12.0" -framework AppKit -framework WebKit \
     "$SOURCE" -o "$BUILD_ROOT/LanternShare-$arch"
 done
 lipo -create "$BUILD_ROOT/LanternShare-arm64" "$BUILD_ROOT/LanternShare-x86_64" -output "$CONTENTS/MacOS/LanternShare"
